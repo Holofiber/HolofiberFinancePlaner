@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="FinancialPlanner.Api/FinancialPlanner.Api.csproj" />
+  <Project Path="FinancialPlanner.Application/FinancialPlanner.Application.csproj" Id="518909f4-3ae7-4798-bc79-95450651616c" />
+  <Project Path="FinancialPlanner.Contracts/FinancialPlanner.Contracts.csproj" Id="d5a2aff5-d56a-4559-a82d-0a0e7af443f4" />
+  <Project Path="FinancialPlanner.Domain/FinancialPlanner.Domain.csproj" Id="40092333-4450-4ae0-a8a2-9444a13d5d73" />
+  <Project Path="FinancialPlanner.Infrastructure/FinancialPlanner.Infrastructure.csproj" Id="fe41a78a-f335-4d69-960b-41e285366044" />
+</Solution>
