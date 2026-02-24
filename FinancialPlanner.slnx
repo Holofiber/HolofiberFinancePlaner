@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".env" />
+    <File Path="docker-compose.yml" />
+  </Folder>
   <Project Path="FinancialPlanner.Api/FinancialPlanner.Api.csproj" />
   <Project Path="FinancialPlanner.Application/FinancialPlanner.Application.csproj" Id="518909f4-3ae7-4798-bc79-95450651616c" />
   <Project Path="FinancialPlanner.Contracts/FinancialPlanner.Contracts.csproj" Id="d5a2aff5-d56a-4559-a82d-0a0e7af443f4" />
