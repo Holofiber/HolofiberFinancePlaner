@@ -1,5 +1,6 @@
 using FinancialPlanner.Api.Common.Middleware;
 using FinancialPlanner.Application.DependencyInjection;
+using FinancialPlanner.Infrastructure.DependencyInjection;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
 });
 
 builder.Services.AddApplication();
-builder.Services.AddInfrastructureViaReflection(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
