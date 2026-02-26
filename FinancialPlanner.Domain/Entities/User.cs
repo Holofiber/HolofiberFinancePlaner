@@ -18,7 +18,7 @@ public sealed class User : Entity
         PasswordHash = passwordHash;
     }
 
-    public Email Email { get; private set; } = Email.Create("placeholder@example.com");
+    public Email Email { get; private set; } = null!;
 
     public string PasswordHash { get; private set; } = string.Empty;
 
