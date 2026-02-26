@@ -13,6 +13,8 @@ namespace FinancialPlanner.Api.Controllers;
 public sealed class ExpensesController(ISender sender) : ControllerBase
 {
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     public async Task<IActionResult> Create([FromBody] CreateExpenseCommand command, CancellationToken cancellationToken)
     {
         var userId = GetUserId();
@@ -21,6 +23,8 @@ public sealed class ExpensesController(ISender sender) : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     public async Task<IActionResult> List(CancellationToken cancellationToken)
     {
         var userId = GetUserId();

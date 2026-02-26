@@ -2,6 +2,7 @@ using FinancialPlanner.Api.Common.Middleware;
 using FinancialPlanner.Application.DependencyInjection;
 using FinancialPlanner.Infrastructure.DependencyInjection;
 using FinancialPlanner.Infrastructure.Persistence;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Serilog;
@@ -51,6 +52,19 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddFixedWindowLimiter("api", opt =>
+    {
+        opt.PermitLimit = 100;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 0;
+    });
+});
+
 var app = builder.Build();
 
 await using (var scope = app.Services.CreateAsyncScope())
@@ -73,6 +87,9 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRateLimiter();
+app.MapControllers().RequireRateLimiting("api");
 
 if (true || app.Environment.IsDevelopment()) // always enable Swagger for testing purposes, remove the 'true ||' part in production
 {

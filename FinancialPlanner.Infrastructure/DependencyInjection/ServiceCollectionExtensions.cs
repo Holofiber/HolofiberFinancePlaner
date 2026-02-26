@@ -20,7 +20,6 @@ public static class ServiceCollectionExtensions
             ?? throw new InvalidOperationException("Connection string was not found.");
 
         services.AddDbContext<FinancialPlannerDbContext>(options => options.UseNpgsql(connectionString));
-        //test
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
