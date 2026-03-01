@@ -27,5 +27,5 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/Holofiber/financialplanner-api:latest
+          tags: ghcr.io/Holofiber/financialplanner:latest
           platforms: linux/amd64
