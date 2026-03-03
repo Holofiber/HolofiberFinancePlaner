@@ -31,6 +31,13 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1"
     });
 
+    var xmlFile = $"{typeof(Program).Assembly.GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
+
     var bearerScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
