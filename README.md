@@ -1,45 +1,120 @@
 # Holofiber Finance Planner
 
-Enterprise-style фінансовий планувальник на базі **ASP.NET Core Web API** з архітектурою **Clean Architecture + CQRS**.
+A production-oriented ASP.NET Core Web API built with Clean Architecture + CQRS, containerized with Docker and deployed via automated CI/CD.
 
-## Структура рішення
+This project demonstrates a modern backend setup including domain-driven design principles, containerization, and automated deployment to a VPS.
 
-- `FinancialPlanner.Domain` — сутності та бізнес-інваріанти.
-- `FinancialPlanner.Application` — CQRS (MediatR), валідація (FluentValidation), абстракції доступу до даних.
-- `FinancialPlanner.Infrastructure` — EF Core/PostgreSQL, JWT, BCrypt, репозиторії, DI-реєстрація.
-- `FinancialPlanner.Api` — контролери, middleware, ProblemDetails, Serilog.
-- `FinancialPlanner.Contracts` — контракти запитів/відповідей для клієнтів.
+## Architecture
 
-## Ключові можливості
+The solution follows Clean Architecture principles:
 
-- JWT автентифікація та refresh-токени.
-- Реєстрація/логін користувача.
-- Створення та читання витрат.
-- Централізована обробка помилок (ProblemDetails).
-- Структуроване логування через Serilog з CorrelationId.
-- Dockerized запуск із PostgreSQL.
+- `FinancialPlanner.Domain`  
+  Domain entities and business invariants.
+- `FinancialPlanner.Application`  
+  CQRS handlers (MediatR), validation (FluentValidation), abstractions.
+- `FinancialPlanner.Infrastructure`  
+  EF Core (PostgreSQL), JWT authentication, BCrypt hashing, repository implementations.
+- `FinancialPlanner.Api`  
+  Controllers, middleware, rate limiting, ProblemDetails, logging.
+- `FinancialPlanner.Contracts`  
+  Request/response contracts for external consumers.
 
-## Локальний запуск (Docker)
+## Features
+
+- JWT authentication with access tokens
+- Secure password hashing (BCrypt)
+- Expense creation and retrieval
+- Centralized error handling (ProblemDetails)
+- Structured logging
+- Rate limiting middleware
+- PostgreSQL persistence
+- Dockerized environment
+- CI/CD pipeline (GitHub Actions -> GHCR -> VPS auto-deploy)
+
+## Local Development (Docker)
 
 ```bash
 docker compose up --build
 ```
 
-API буде доступний на `http://localhost:8080`.
+API will be available at:
 
-## Налаштування
+- `http://localhost:8080/swagger`
 
-Конфігурація в `FinancialPlanner.Api/appsettings.json`:
+## Production Deployment
 
-- `ConnectionStrings:DefaultConnection`
-- `Jwt:Secret`
-- `Jwt:Issuer`
-- `Jwt:Audience`
+The application is deployed on a VPS using:
 
-> В production замініть `Jwt:Secret` на довгий випадковий ключ і передавайте через environment variables.
+- Docker & Docker Compose
+- GitHub Container Registry (GHCR)
+- GitHub Actions CI/CD
+- SSH-based automated deployment
 
-## Наступні кроки
+Deployment flow:
 
-- Додати EF Core migrations.
-- Додати refresh-token rotation та revoke.
-- Покрити Application unit-тестами й API integration-тестами.
+```text
+git push
+   |
+   v
+GitHub Actions build
+   |
+   v
+Push Docker image to GHCR
+   |
+   v
+SSH into VPS
+   |
+   v
+docker compose pull
+   |
+   v
+docker compose up -d
+```
+
+Minimal downtime (container restart-based deployment).
+
+## Configuration
+
+Configuration is managed via environment variables.
+
+Required:
+
+- `ConnectionStrings__DefaultConnection`
+- `Jwt__Secret`
+- `Jwt__Issuer`
+- `Jwt__Audience`
+
+In production, secrets must be provided via environment variables (never hardcoded).
+
+## Database
+
+- PostgreSQL 17 (Docker container)
+- Persistent Docker volume
+- Health checks enabled
+- Internal-only database exposure (not publicly accessible)
+
+## Security Considerations
+
+- JWT-based authentication
+- Password hashing with BCrypt
+- Rate limiting enabled
+- Database not exposed publicly
+- Production environment separation
+
+## Roadmap
+
+- Refresh token rotation & revocation
+- Role-based authorization
+- API integration tests
+- Observability (metrics, tracing)
+- HTTPS via reverse proxy
+
+## Purpose
+
+This project demonstrates:
+
+- Clean Architecture in a real-world setup
+- Proper separation of concerns
+- Containerized backend deployment
+- Automated CI/CD pipeline
+- Production-oriented infrastructure decisions
