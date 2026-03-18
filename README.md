@@ -11,11 +11,11 @@ The solution follows Clean Architecture principles:
 - `FinancialPlanner.Domain`  
   Domain entities and business invariants.
 - `FinancialPlanner.Application`  
-  CQRS handlers (MediatR), validation (FluentValidation), abstractions.
+  CQRS handlers (MediatR), validation (FluentValidation), and abstractions.
 - `FinancialPlanner.Infrastructure`  
   EF Core (PostgreSQL), JWT authentication, BCrypt hashing, repository implementations.
 - `FinancialPlanner.Api`  
-  Controllers, middleware, rate limiting, ProblemDetails, logging.
+  Controllers, middleware, rate limiting, ProblemDetails, and logging.
 - `FinancialPlanner.Contracts`  
   Request/response contracts for external consumers.
 
