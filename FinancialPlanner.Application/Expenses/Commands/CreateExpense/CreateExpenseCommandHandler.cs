@@ -1,11 +1,14 @@
+using FinancialPlanner.Application.Abstractions.Caching;
 using FinancialPlanner.Application.Abstractions.Persistence;
 using FinancialPlanner.Application.Common.Exceptions;
+using FinancialPlanner.Application.Expenses;
 using FinancialPlanner.Domain.Entities;
 using MediatR;
 
 namespace FinancialPlanner.Application.Expenses.Commands.CreateExpense;
 
 public sealed class CreateExpenseCommandHandler(
+    ICacheService cacheService,
     IUserRepository userRepository,
     IExpenseRepository expenseRepository,
     IUnitOfWork unitOfWork) : IRequestHandler<CreateExpenseCommand, Guid>
@@ -27,6 +30,7 @@ public sealed class CreateExpenseCommandHandler(
 
         await expenseRepository.AddAsync(expense, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+        await cacheService.RemoveAsync(ExpenseCacheKeys.UserExpenses(request.UserId), cancellationToken);
 
         return expense.Id;
     }

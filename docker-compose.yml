@@ -12,9 +12,12 @@ services:
       Jwt__Secret: ${JWT_SECRET}
       Jwt__Issuer: FinancialPlanner
       Jwt__Audience: FinancialPlanner.Api
+      Redis__ConnectionString: redis:6379
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_started
 
   postgres:
     image: postgres:17-alpine
@@ -31,6 +34,10 @@ services:
         interval: 5s
         timeout: 5s
         retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: always
 
 volumes:
   pgdata:
